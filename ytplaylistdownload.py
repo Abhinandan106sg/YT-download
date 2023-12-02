@@ -1,4 +1,5 @@
 from pytube import Playlist
+from pytube.exceptions import VideoUnavailable
 from sys import argv
 from plyer import notification
 import time
@@ -25,7 +26,7 @@ print(f"Title : {p.title}")
 notification.notify(
         title = f"Downloading {(p.title)}",
         message = f"{len(p)} videos",
-        app_icon = "C:/Users/HP/OneDrive/Desktop/yt-download/pythonlogoIco.ico",
+        app_icon = "pythonlogoIco.ico",
         timeout = 5
     )
 
@@ -37,26 +38,33 @@ for video in p.videos:
     #Slicing video title into small title of length 50 for notification
     small_title = (video.title)[:50] if (len(video.title)>50) else video.title
 
-    print(f"Downloading {small_title}")
+    print(f"Downloading {video.title}")
 
     #Calling progress function
     video.register_on_progress_callback(progress)
 
-    #Getting highest resolution of video
-    high_def_video = video.streams.get_highest_resolution()
+    try:
 
-    #Downloading the video
-    high_def_video.download(output_path=download_path)
+        #Getting highest resolution of video
+        high_def_video = video.streams.get_highest_resolution()
+    
+    except VideoUnavailable:
+        print(f"{video.title} unavailable ......... skipping ")
 
-    #Notifing user
-    print(f"\n {small_title} downloaded successfully")
-    notification.notify(
-        title = small_title,
-        message = f"Download complete \n {download_path}",
-        app_icon = "C:/Users/HP/OneDrive/Desktop/yt-download/pythonlogoIco.ico",
-        timeout = 5
-    )
+    else:
 
-    #Pause for 3 seconds
-    time.sleep(3)
+        #Downloading the video
+        high_def_video.download(output_path=download_path)
+
+        #Notifing user
+        print(f"\n {video.title} downloaded successfully")
+        notification.notify(
+            title = small_title,
+            message = f"Download complete \n {download_path}",
+            app_icon = "pythonlogoIco.ico",
+            timeout = 5
+        )
+
+        #Pause for 3 seconds
+        time.sleep(3)
 

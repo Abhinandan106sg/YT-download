@@ -24,11 +24,15 @@ try:
     #Calculating file size
     File_size=yt.streams.get_highest_resolution().filesize_mb
 
+    #Slicing video title into small title of length 50 for notification
+    small_title = (yt.title)[:50] if (len(yt.title)>50) else yt.title
+
     #Notifing user
     notification.notify(
-        title = f"Downloading {yt.title}",
+        title = f"Downloading {small_title}",
         message = f"File size : {File_size}",
-        app_icon = "C:/Users/HP/OneDrive/Desktop/yt-download/pythonlogoIco.ico"
+        app_icon = "pythonlogoIco.ico",
+        timeout = 3
     )
 
     #Getting highest resolution of video
@@ -39,10 +43,11 @@ try:
 
     #Notifing user
     notification.notify(
-        title = yt.title,
+        title = small_title,
         message = f"Download complete \n {download_path}",
-        app_icon = "C:/Users/HP/OneDrive/Desktop/yt-download/pythonlogoIco.ico"
+        app_icon = "pythonlogoIco.ico",
+        timeout = 3
     )
     
 except Exception as e:
-    print(f"An error occured : {e}")
+    print(f"\n An error occured : {e}")
