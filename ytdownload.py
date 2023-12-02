@@ -1,7 +1,15 @@
 from pytube import YouTube
 from sys import argv
+from plyer import notification
 
 link = argv[1]
+
+def alert(video_title,video_size):
+    notification.notify(
+        title = f"Downloading {video_title}",
+        messege = f"File size : {video_size} mb "
+    )
+
 
 def progress(streams, chunk: bytes, bytes_remaining: int):
     contentsize = video.filesize
@@ -11,16 +19,20 @@ def progress(streams, chunk: bytes, bytes_remaining: int):
     '█' * int(size*20/contentsize), ' '*(20-int(size*20/contentsize)), float(size/contentsize*100)), end='')
     
 try:
+    notification.notify(
+        title = "notification",
+        message = "this is a messege"
+    )
     yt=YouTube(link,on_progress_callback=progress)
 
-    print("Title:",yt.title)
     File_size=yt.streams.get_highest_resolution().filesize_mb
-    print(f"File size : {File_size} mb")
+    print(type(File_size))
+    # alert(yt.title,str(File_size))
 
     video=yt.streams.get_highest_resolution();
     video.download(output_path="C:/Users/HP/Downloads")
 
-    print("\n DOWNLOAD COMPLETE")
+    # alert("Download Complete",yt.title)
     
 except Exception as e:
     print(f"An error occured : {e}")
