@@ -21,7 +21,8 @@ try:
     File_size=yt.streams.get_highest_resolution().filesize_mb
     notification.notify(
         title = f"Downloading {yt.title}",
-        message = f"File size : {File_size}"
+        message = f"File size : {File_size}",
+        app_icon = "C:/Users/HP/OneDrive/Desktop/yt-download/pythonlogoIco.ico"
     )
 
     video=yt.streams.get_highest_resolution();
@@ -29,7 +30,8 @@ try:
 
     notification.notify(
         title = yt.title,
-        message = f"Download complete \n {download_path}"
+        message = f"Download complete \n {download_path}",
+        app_icon = "C:/Users/HP/OneDrive/Desktop/yt-download/pythonlogoIco.ico"
     )
     
 except Exception as e:
