@@ -4,11 +4,7 @@ from plyer import notification
 
 link = argv[1]
 
-def alert(video_title,video_size):
-    notification.notify(
-        title = f"Downloading {video_title}",
-        messege = f"File size : {video_size} mb "
-    )
+download_path = "C:/Users/HP/Downloads"
 
 
 def progress(streams, chunk: bytes, bytes_remaining: int):
@@ -19,20 +15,22 @@ def progress(streams, chunk: bytes, bytes_remaining: int):
     '█' * int(size*20/contentsize), ' '*(20-int(size*20/contentsize)), float(size/contentsize*100)), end='')
     
 try:
-    notification.notify(
-        title = "notification",
-        message = "this is a messege"
-    )
+    
     yt=YouTube(link,on_progress_callback=progress)
 
     File_size=yt.streams.get_highest_resolution().filesize_mb
-    print(type(File_size))
-    # alert(yt.title,str(File_size))
+    notification.notify(
+        title = f"Downloading {yt.title}",
+        message = f"File size : {File_size}"
+    )
 
     video=yt.streams.get_highest_resolution();
-    video.download(output_path="C:/Users/HP/Downloads")
+    video.download(output_path=download_path)
 
-    # alert("Download Complete",yt.title)
+    notification.notify(
+        title = yt.title,
+        message = f"Download complete \n {download_path}"
+    )
     
 except Exception as e:
     print(f"An error occured : {e}")
