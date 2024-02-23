@@ -1,5 +1,15 @@
+import curses
+from curses import wrapper
 from pytube import YouTube
 from plyer import notification
+
+def main(stdscr):
+    stdscr.addstr("Hello world!")
+    stdscr.getch()
+
+wrapper(main)
+
+
 
 #taking link as input
 link = input("Enter YouTube video link : ")
